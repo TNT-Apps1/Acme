@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Acme1.Models.Product>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body style="background-color:#f5deb5">
+    <p>
+        @Html.ActionLink("Home", "../")<br />
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table" style="background-color:white; width:800px; text-align:center; border:double">
+        <tr style="border:double, ; font-weight:bold">
+            <th style="width:100px;border:double">
+                Action
+            </th>
+            <th style="border:double">
+                Picture
+            </th>
+            <th style="width:500px;border:double">
+                Product Data
+            </th>
+            <th style="width:100px;border:double">
+                Price
+            </th>
+            <th style="width:100px;border:double">
+                On Hand
+            </th>
+         </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td style="border:double">
+                @Html.ActionLink("Edit", "Edit", new { id = item.ProductID })
+                @Html.ActionLink("Delete", "Delete", new { id = item.ProductID })
+            </td>
+            <td style="border:double">
+                <img src="~/content/images/products/@item.ImageFile" style="width:85px;height:100px">
+            </td>
+            <td style="text-align:left;border:double;">
+                @Html.DisplayFor(modelItem => item.imageFileToString)<br />
+                @Html.DisplayFor(modelItem => item.Name)<br />
+                @Html.DisplayFor(modelItem => item.CategoryID)<br />
+                @Html.DisplayFor(modelItem => item.ShortDescription)<br />
+                @Html.DisplayFor(modelItem => item.LongDescription)
+            </td>
+            <td style="border:double">
+                @Html.DisplayFor(modelItem => item.UnitPrice)
+            </td>
+            <td style="border:double">
+                @Html.DisplayFor(modelItem => item.OnHand)
+            </td>
+
+        </tr>
+    }
+    
+    </table>
+</body>
+</html>

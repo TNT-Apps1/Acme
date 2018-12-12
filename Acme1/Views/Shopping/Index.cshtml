@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Acme1.Models.Product>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@{ string category_title = ViewBag.category; }
+<h2 style="text-align:center">@category_title.ToUpper()</h2>
+
+<!--<p>
+    @Html.ActionLink("Create New", "Create")
+</p>-->
+<table class="table">
+    @{int i = 1; }
+    @foreach (var item in Model)
+    {
+
+        if (i == 1)
+        {
+            @:<tr>
+            }
+            <td style="text-align:center">
+                @Html.ActionLink(@item.Name, "Order", new { id = item.ProductID })
+                <br />
+                <img src="~/content/images/products/@item.ImageFile" style="width:175px;height:200px">
+            </td>
+
+            if (i == 3)
+            {
+            @:</tr>
+        }
+
+        i++;
+
+        if (i == 4)
+        {
+            i = 1;
+        }
+    }
+    
+    @if(i==3){
+    @:</tr>
+    }
+
+</table>
+
+

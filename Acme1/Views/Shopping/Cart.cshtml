@@ -1,0 +1,93 @@
+﻿@model IEnumerable<Acme1.Models.ViewModels.Cartvm1>
+@{
+    ViewBag.Title = "Your Cart";
+}
+<style>
+    .button {
+        background: none !important;
+        border: none;
+        padding: 0 !important;
+        color: #0000FF;
+    }
+</style>
+<h2>Your Cart</h2>
+@if (Model.Count() == 0)
+{
+    <span style="font-size:large;">No items in Cart</span>
+}
+else
+{
+    <table class="table" style="width:680px;background-color:white">
+        <tr style="color:#FFFFFF; background-color:#3333FF">
+            <!--<th>
+        @Html.DisplayNameFor(model => model.CartNumber)
+    </th>-->
+            <th style="width:85px">
+
+            </th>
+            <th style="width:280px">
+                Product
+            </th>
+            <th style="width:95px;text-align:right">
+                Unit Price
+            </th>
+            <th style="width:110px;text-align:right">
+                Quantity
+            </th>
+            <th style="width:110px;text-align:right">
+                Total
+            </th>
+            <th />
+        </tr>
+        @{decimal totalCost = 0.00M;}
+
+        @foreach (var item in Model)
+        {
+        <tr>
+            <form action="/shopping/Cart" method="post">
+                @Html.AntiForgeryToken()
+                <td>
+                    <img src="~/content/images/products/@item.imagefile" style="height:100px">
+                </td>
+                <td>
+                    <input type="hidden" id="ProductId" name="ProductId"
+                           value="@item.ProductID" />
+                    @Html.ActionLink(@item.Name, "Order", new { id = @item.ProductID })
+                    <br/>
+                    <span>@item.ShortDescription</span>
+                </td>
+                <td style="width:110px;text-align:right">
+                    <span>@item.UnitPrice</span>
+                </td>
+                <td style="width:110px;text-align:right">
+                    @*add other fields here *@
+                    <input data-val="true" data-val-range="Quantity invalid"
+                           data-val-range-max="99" data-val-range-min="1"
+                           data-val-required="Quantity missing"
+                           maxlength="2" size="2" id="Quantity"
+                           name="Quantity" type="text" value="@item.Quantity" /><br />
+                    <span class="field-validation-valid" data-valmsg-for="Quantity"
+                          data-valmsg-replace="true"></span><br />
+                    <input type="submit" class="button" name="udaction" value="Update" />
+                </td>
+                <td style="width:110px;text-align:right">
+                    <span>@item.TotalCost</span>
+                </td>
+                <td >
+                    <input type="submit" class="button" name="udaction" value="Delete"
+                           onclick="return confirm('Are you sure?')" />
+
+                </td>
+            </form>
+        </tr>
+            { totalCost += @item.TotalCost; }
+        }
+        <tr><td /><td /><td /><td /><td colspan="3" style="font-size:larger">Total = @totalCost</td></tr>
+    </table>
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+} @*else*@
+

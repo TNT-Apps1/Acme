@@ -1,0 +1,96 @@
+﻿@model Acme1.Models.Product
+
+@{
+    ViewBag.Title = "Order";
+}
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <input type="hidden" name="CartNumber" value="1" />
+        <input type="hidden" name="ProductID" value="@Model.ProductID" />
+
+        @Html.HiddenFor(model => model.Name)
+
+        @Html.HiddenFor(model => model.ShortDescription)
+
+        @Html.HiddenFor(model => model.LongDescription)
+
+        @Html.HiddenFor(model => model.CategoryID)
+
+        @Html.HiddenFor(model => model.ImageFile)
+
+        <br />
+        <table>
+            <tr>
+                <td>
+                    <h1>@Html.DisplayFor(model => model.Name)</h1>
+                    <br />
+                    <h3>@Html.DisplayFor(model => model.ShortDescription)</h3>
+                    <br />
+                    <div style="font-size:large">Unit Price: $@Html.DisplayFor(model => model.UnitPrice)</div>
+                    <br />
+                    <div class="editor-field">
+                        Quantity:
+                        <input data-val="true"
+                               data-val-range="Quantity not valid"
+                               data-val-range-max="99" data-val-range-min="1"
+                               data-val-required="Quantity missing" maxlength="2" size="2"
+                               id="Quantity" name="Quantity" type="text" value="1" />
+                        <span class="field-validation-valid" data-valmsg-for="Quantity"
+                              data-valmsg-replace="true"></span>
+                    </div>
+                    <br />
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Add to Cart" class="btn btn-default" />
+                        </div>
+                    </div>
+                </td>
+                <td style="width:50px"></td>
+                <td>
+                    <img src="~/content/images/products/@Model.ImageFile" style="width:250px;height:300px">
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+}
+
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<style type="text/css">
+    .validation-summary-valid {
+        display: none;
+    }
+
+    .field-validation-error {
+        color: #f00;
+    }
+
+    .validation-summary-errors {
+        color: #f00;
+        font-weight: bold;
+    }
+
+    .input-validation-error {
+        border: 2px solid #f00;
+        background-color: #fee;
+    }
+</style>
