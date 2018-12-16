@@ -18,6 +18,7 @@ namespace Acme1.Models.ViewModels
         public string Name { get; set; }
         public string ShortDescription { get; set; }
         public decimal UnitPrice { get; set; }
+        [Required, Range(minimum: 1, maximum: 99, ErrorMessage = "Qty sb 1-99")]
         public int Quantity { get; set; }
         public string imagefile { get; set; }
         public string Categoryid { get; set; }

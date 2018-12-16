@@ -84,6 +84,7 @@ namespace Acme1.Controllers
                     //added-->
                     if (Session["cartnumber"] == null)
                         Session["cartnumber"] = Utility.GetIdNumber(dbcon, "CartNumber");
+
                     int cartnumber = (int)Session["cartnumber"];
                     //<--added
                     cart.CartNumber = cartnumber;
@@ -103,20 +104,24 @@ namespace Acme1.Controllers
             try
             {
               
+                if(Session["cartnumber"] != null) {
                     dbcon.Open();
-                if (Session["cartnumber"] == null)
-                    Session["cartnumber"] = Utility.GetIdNumber(dbcon, "CartNumber");
-
-                int cartnumber = (int)Session["cartnumber"];
+                    int cartnumber = (int)Session["cartnumber"];
                     //int cartnumber = 100;
                     cartlist = Cartvm1.GetCartList(dbcon, cartnumber);
                     dbcon.Close();
+                 }
 
                 return View(cartlist);
             }
             catch (Exception ex)
             {
-                return View(cartlist);
+                if (dbcon.State == ConnectionState.Open)
+                    dbcon.Close();
+
+                ViewBag.errmsg = ex.Message;
+
+                return View("_Error");
             }
         }
 

@@ -17,43 +17,46 @@
 }
 else
 {
-    <table class="table" style="width:680px;background-color:white">
+    <table class="table" style="width:680px; background-color:white; margin-bottom: 0px;">
         <tr style="color:#FFFFFF; background-color:#3333FF">
             <!--<th>
         @Html.DisplayNameFor(model => model.CartNumber)
     </th>-->
-            <th style="width:85px">
+            <th style="width:100px">
 
             </th>
             <th style="width:280px">
                 Product
             </th>
-            <th style="width:95px;text-align:right">
+            <th style="width:95px; text-align:right">
                 Unit Price
             </th>
-            <th style="width:110px;text-align:right">
+            <th style="width:110px; text-align:right">
                 Quantity
             </th>
-            <th style="width:110px;text-align:right">
+            <th style="width:110px; text-align:right">
                 Total
             </th>
-            <th />
+            <th style="width:59px"></th>
         </tr>
-        @{decimal totalCost = 0.00M;}
+    </table>
+    decimal totalCost = 0.00M;
 
-        @foreach (var item in Model)
-        {
-        <tr>
-            <form action="/shopping/Cart" method="post">
+    foreach (var item in Model)
+    {
+        totalCost += @item.TotalCost; 
+        <form action="/shopping/Cart" method="post">
+        <table class="table" style="width:680px;background-color:white; margin-bottom: 0px;">
+            <tr>
                 @Html.AntiForgeryToken()
-                <td>
+                <td style="width:100px">
                     <img src="~/content/images/products/@item.imagefile" style="height:100px">
                 </td>
-                <td>
+                <td style="width:280px">
                     <input type="hidden" id="ProductId" name="ProductId"
                            value="@item.ProductID" />
                     @Html.ActionLink(@item.Name, "Order", new { id = @item.ProductID })
-                    <br/>
+                    <br />
                     <span>@item.ShortDescription</span>
                 </td>
                 <td style="width:110px;text-align:right">
@@ -61,30 +64,33 @@ else
                 </td>
                 <td style="width:110px;text-align:right">
                     @*add other fields here *@
-                    <input data-val="true" data-val-range="Quantity invalid"
+                    <input data-val="true" data-val-range="Error message"
                            data-val-range-max="99" data-val-range-min="1"
                            data-val-required="Quantity missing"
                            maxlength="2" size="2" id="Quantity"
-                           name="Quantity" type="text" value="@item.Quantity" /><br />
-                    <span class="field-validation-valid" data-valmsg-for="Quantity"
+                           name="Quantity" type="text" value="@item.Quantity" />
+                    <br />
+                    <span class="text-danger field-validation-valid" data-valmsg-for="Quantity"
                           data-valmsg-replace="true"></span><br />
                     <input type="submit" class="button" name="udaction" value="Update" />
                 </td>
                 <td style="width:110px;text-align:right">
                     <span>@item.TotalCost</span>
                 </td>
-                <td >
+                <td>
                     <input type="submit" class="button" name="udaction" value="Delete"
                            onclick="return confirm('Are you sure?')" />
 
                 </td>
-            </form>
-        </tr>
-            { totalCost += @item.TotalCost; }
-        }
-        <tr><td /><td /><td /><td /><td colspan="3" style="font-size:larger">Total = @totalCost</td></tr>
+            </tr>
+        </table>           
+        </form>
+            
+    }
+    <table class="table" style="width:680px;background-color:white">
+        <tr><td /><td /><td /><td /><td colspan="3" style="font-size:larger; text-align:right">Total = @totalCost</td></tr>
     </table>
-
+    
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
